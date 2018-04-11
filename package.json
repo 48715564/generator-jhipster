@@ -1,5 +1,5 @@
 {
-  "name": "generator-jhipster",
+  "name": "generator-daocloud",
   "version": "5.0.0-beta.0",
   "description": "Spring Boot + Angular in one handy generator",
   "files": [

@@ -2048,13 +2048,13 @@ module.exports = class extends PrivateBase {
         this.log(`${chalk.green('  ██╗   ██║')}${chalk.red(' ██╔═══██║    ██║    ██╔════╝   ╚═══██╗    ██║    ██╔═══╝   ██╔══██║')}`);
         this.log(`${chalk.green('  ╚██████╔╝')}${chalk.red(' ██║   ██║ ████████╗ ██║       ██████╔╝    ██║    ████████╗ ██║  ╚██╗')}`);
         this.log(`${chalk.green('   ╚═════╝ ')}${chalk.red(' ╚═╝   ╚═╝ ╚═══════╝ ╚═╝       ╚═════╝     ╚═╝    ╚═══════╝ ╚═╝   ╚═╝')}\n`);
-        this.log(chalk.white.bold('                            https://www.jhipster.tech\n'));
-        this.log(chalk.white('Welcome to the JHipster Generator ') + chalk.yellow(`v${packagejs.version}`));
-        this.log(chalk.green(' _______________________________________________________________________________________________________________\n'));
-        this.log(chalk.white(`  If you find JHipster useful consider supporting our collective ${chalk.yellow('https://opencollective.com/generator-jhipster')}`));
-        this.log(chalk.white(`  Documentation for creating an application: ${chalk.yellow('https://www.jhipster.tech/creating-an-app/')}`));
-        this.log(chalk.green(' _______________________________________________________________________________________________________________\n'));
-        this.log(chalk.white(`Application files will be generated in folder: ${chalk.yellow(process.cwd())}`));
+        this.log(chalk.white.bold('                            http://www.daocloud.io\n'));
+        this.log(chalk.white('欢迎使用daocloud微服务生成工具') + chalk.yellow(`v${packagejs.version}`));
+        // this.log(chalk.green(' _______________________________________________________________________________________________________________\n'));
+        // this.log(chalk.white(`  If you find JHipster useful consider supporting our collective ${chalk.yellow('https://opencollective.com/generator-jhipster')}`));
+        // this.log(chalk.white(`  Documentation for creating an application: ${chalk.yellow('https://www.jhipster.tech/creating-an-app/')}`));
+        // this.log(chalk.green(' _______________________________________________________________________________________________________________\n'));
+        this.log(chalk.white(`应用程序文件将在文件夹中生成: ${chalk.yellow(process.cwd())}`));
     }
 
     /**
@@ -2132,15 +2132,15 @@ module.exports = class extends PrivateBase {
             name: 'baseName',
             validate: (input) => {
                 if (!(/^([a-zA-Z0-9_]*)$/.test(input))) {
-                    return 'Your application name cannot contain special characters or a blank space';
+                    return '应用程序名称不能包含特殊字符或空格';
                 } else if (generator.applicationType === 'microservice' && /_/.test(input)) {
-                    return 'Your microservice name cannot contain underscores as this does not meet the URI spec';
+                    return '您的微服务名称不能包含下划线，因为它不符合URI规范';
                 } else if (input === 'application') {
-                    return 'Your application name cannot be named \'application\' as this is a reserved name for Spring Boot';
+                    return '您的应用程序名称不能命名为\'application\'，因为这是Spring Boot的保留名称';
                 }
                 return true;
             },
-            message: 'What is the base name of your application?',
+            message: '您的应用基本名称是什么?',
             default: defaultAppBaseName
         }).then((prompt) => {
             generator.baseName = prompt.baseName;
@@ -2161,14 +2161,14 @@ module.exports = class extends PrivateBase {
             {
                 type: 'confirm',
                 name: 'enableTranslation',
-                message: 'Would you like to enable internationalization support?',
+                message: '是否需要国际化支持?',
                 default: true
             },
             {
                 when: response => response.enableTranslation === true,
                 type: 'list',
                 name: 'nativeLanguage',
-                message: 'Please choose the native language of the application',
+                message: '请选择应用程序的母语',
                 choices: languageOptions,
                 default: 'en',
                 store: true
@@ -2177,7 +2177,7 @@ module.exports = class extends PrivateBase {
                 when: response => response.enableTranslation === true,
                 type: 'checkbox',
                 name: 'languages',
-                message: 'Please choose additional languages to install',
+                message: '请选择其他语言进行安装',
                 choices: response => _.filter(languageOptions, o => o.value !== response.nativeLanguage)
             }
         ];

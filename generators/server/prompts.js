@@ -49,15 +49,15 @@ function askForServerSideOpts(meta) {
             type: 'input',
             name: 'serverPort',
             validate: input => (/^([0-9]*)$/.test(input) ? true : 'This is not a valid port number.'),
-            message: 'As you are running in a microservice architecture, on which port would like your server to run? It should be unique to avoid port conflicts.',
+            message: '请输入应用的端口号，请保证它在微服务体系中是唯一的',
             default: defaultPort
         },
         {
             type: 'input',
             name: 'packageName',
             validate: input => (/^([a-z_]{1}[a-z0-9_]*(\.[a-z_]{1}[a-z0-9_]*)*)$/.test(input) ?
-                true : 'The package name you have provided is not a valid Java package name.'),
-            message: 'What is your default Java package name?',
+                true : '您提供的软件包名称不是有效的Java软件包名称'),
+            message: '请输入默认Java包名称?',
             default: 'com.mycompany.myapp',
             store: true
         },
@@ -65,11 +65,11 @@ function askForServerSideOpts(meta) {
             when: response => applicationType === 'gateway' || applicationType === 'microservice' || applicationType === 'uaa',
             type: 'list',
             name: 'serviceDiscoveryType',
-            message: 'Which service discovery server do you want to use?',
+            message: '请选用哪种类型的服务发现?',
             choices: [
                 {
                     value: 'eureka',
-                    name: 'JHipster Registry (uses Eureka, provides Spring Cloud Config support and monitoring dashboards)'
+                    name: 'DaoCloud Registry (使用Eureka，提供Spring Cloud Config支持和监控仪表板)'
                 },
                 {
                     value: 'consul',
@@ -86,7 +86,7 @@ function askForServerSideOpts(meta) {
             when: response => applicationType === 'monolith',
             type: 'list',
             name: 'serviceDiscoveryType',
-            message: 'Do you want to use the JHipster Registry to configure, monitor and scale your application?',
+            message: '您是否想使用DaoCloud Registry来配置，监控和扩展您的应用程序?',
             choices: [
                 {
                     value: false,
@@ -106,7 +106,7 @@ function askForServerSideOpts(meta) {
             ),
             type: 'list',
             name: 'authenticationType',
-            message: `Which ${chalk.yellow('*type*')} of authentication would you like to use?`,
+            message: `请选使用哪种 ${chalk.yellow('*类型*')}的权限验证?`,
             choices: (response) => {
                 const opts = [
                     {
@@ -126,7 +126,7 @@ function askForServerSideOpts(meta) {
                 } else if (['gateway', 'microservice'].includes(applicationType)) {
                     opts.push({
                         value: 'uaa',
-                        name: 'Authentication with JHipster UAA server (the server must be generated separately)'
+                        name: 'Authentication with DaoCloud UAA server (the server must be generated separately)'
                     });
                 }
                 return opts;
@@ -137,7 +137,7 @@ function askForServerSideOpts(meta) {
             when: response => ((applicationType === 'gateway' || applicationType === 'microservice') && response.authenticationType === 'uaa'),
             type: 'input',
             name: 'uaaBaseName',
-            message: 'What is the folder path of your UAA application?',
+            message: '请输入UAA Server所在的目录?',
             default: '../uaa',
             validate: (input) => {
                 const uaaAppData = this.getUaaAppName(input);
@@ -145,13 +145,13 @@ function askForServerSideOpts(meta) {
                 if (uaaAppData && uaaAppData.baseName && uaaAppData.applicationType === 'uaa') {
                     return true;
                 }
-                return `Could not find a valid JHipster UAA server in path "${input}"`;
+                return `无法从路径"${input}"中找到UAA`;
             }
         },
         {
             type: 'list',
             name: 'databaseType',
-            message: `Which ${chalk.yellow('*type*')} of database would you like to use?`,
+            message: `使用哪种${chalk.yellow('*类型*')}的数据库?`,
             choices: (response) => {
                 const opts = [
                     {
@@ -189,7 +189,7 @@ function askForServerSideOpts(meta) {
             when: response => response.databaseType === 'sql',
             type: 'list',
             name: 'prodDatabaseType',
-            message: `Which ${chalk.yellow('*production*')} database would you like to use?`,
+            message: `${chalk.yellow('*生产*')}环境使用哪种类型的数据库?`,
             choices: constants.SQL_DB_OPTIONS,
             default: 0
         },
@@ -197,15 +197,15 @@ function askForServerSideOpts(meta) {
             when: response => response.databaseType === 'sql',
             type: 'list',
             name: 'devDatabaseType',
-            message: `Which ${chalk.yellow('*development*')} database would you like to use?`,
+            message: `${chalk.yellow('*开发*')} 环境使用哪种类型的数据库?`,
             choices: response => [
                 {
                     value: 'h2Disk',
-                    name: 'H2 with disk-based persistence'
+                    name: 'H2 使用硬盘持久化'
                 },
                 {
                     value: 'h2Memory',
-                    name: 'H2 with in-memory persistence'
+                    name: 'H2 使用内存持久化'
                 }
             ].concat(constants.SQL_DB_OPTIONS.find(it => it.value === response.prodDatabaseType)),
             default: 0
@@ -215,23 +215,23 @@ function askForServerSideOpts(meta) {
             when: response => applicationType !== 'gateway',
             type: 'list',
             name: 'cacheProvider',
-            message: 'Do you want to use the Spring cache abstraction?',
+            message: '你想使用Spring缓存抽象吗?',
             choices: [
                 {
                     value: 'ehcache',
-                    name: 'Yes, with the Ehcache implementation (local cache, for a single node)'
+                    name: '通过Ehcache实现（本地缓存，用于单个节点）'
                 },
                 {
                     value: 'hazelcast',
-                    name: 'Yes, with the Hazelcast implementation (distributed cache, for multiple nodes)'
+                    name: '通过Hazelcast实现(分布式缓存，用于多个节点)'
                 },
                 {
                     value: 'infinispan',
-                    name: '[BETA] Yes, with the Infinispan implementation (hybrid cache, for multiple nodes)'
+                    name: '[BETA] 使用Infinispan实施（混合缓存，适用于多个节点)'
                 },
                 {
                     value: 'no',
-                    name: 'No (when using an SQL database, this will also disable the Hibernate L2 cache)'
+                    name: '否（当使用SQL数据库时，这也会禁用Hibernate L2缓存）'
                 }
             ],
             default: (applicationType === 'microservice' || applicationType === 'uaa') ? 1 : 0
@@ -240,13 +240,13 @@ function askForServerSideOpts(meta) {
             when: response => ((response.cacheProvider !== 'no' || applicationType === 'gateway') && response.databaseType === 'sql'),
             type: 'confirm',
             name: 'enableHibernateCache',
-            message: 'Do you want to use Hibernate 2nd level cache?',
+            message: '是否使用Hibernate 2nd level cache?',
             default: true
         },
         {
             type: 'list',
             name: 'buildTool',
-            message: 'Would you like to use Maven or Gradle for building the backend?',
+            message: '请选择使用Maven或者Gradle用于后端构建?',
             choices: [
                 {
                     value: 'maven',
@@ -338,34 +338,34 @@ function askForOptionalItems(meta) {
     const choices = [];
     const defaultChoice = [];
     choices.push({
-        name: 'Reactive APIs, using Spring Webflux',
+        name: '反应式API，使用Spring Webflux',
         value: 'reactive:true'
     });
     if (this.databaseType === 'sql' || this.databaseType === 'mongodb') {
         choices.push({
-            name: 'Search engine using Elasticsearch',
+            name: '搜索引擎使用Elasticsearch',
             value: 'searchEngine:elasticsearch'
         });
     }
     if (applicationType === 'monolith' || applicationType === 'gateway') {
         choices.push({
-            name: 'WebSockets using Spring Websocket',
+            name: '使用Spring Websocket',
             value: 'websocket:spring-websocket'
         });
     }
     choices.push({
-        name: 'API first development using swagger-codegen',
+        name: '使用swagger-codegen进行API first开发',
         value: 'enableSwaggerCodegen:true'
     });
     choices.push({
-        name: 'Asynchronous messages using Apache Kafka',
+        name: '使用Apache Kafka的异步消息',
         value: 'messageBroker:kafka'
     });
 
     const PROMPTS = {
         type: 'checkbox',
         name: 'serverSideOptions',
-        message: 'Which other technologies would you like to use?',
+        message: '您想使用哪些技术?',
         choices,
         default: defaultChoice
     };

@@ -54,23 +54,23 @@ function askForApplicationType(meta) {
     const PROMPT = {
         type: 'list',
         name: 'applicationType',
-        message: `Which ${chalk.yellow('*type*')} of application would you like to create?`,
+        message: `请选择你想创建的应用${chalk.yellow('*类型*')}?`,
         choices: [
             {
                 value: DEFAULT_APPTYPE,
-                name: 'Monolithic application (recommended for simple projects)'
+                name: '单体应用(简单例子)'
             },
             {
                 value: 'microservice',
-                name: 'Microservice application'
+                name: '微服务应用'
             },
             {
                 value: 'gateway',
-                name: 'Microservice gateway'
+                name: '微服务网关'
             },
             {
                 value: 'uaa',
-                name: 'JHipster UAA server (for microservice OAuth2 authentication)'
+                name: 'UAA服务(微服务OAuth2验证)'
             }
         ],
         default: DEFAULT_APPTYPE
@@ -121,7 +121,7 @@ function askForTestOpts(meta) {
     const PROMPT = {
         type: 'checkbox',
         name: 'testFrameworks',
-        message: 'Besides JUnit and Karma, which testing frameworks would you like to use?',
+        message: '除了JUnit和Karma，你想使用哪种测试框架？',
         choices,
         default: defaultChoice
     };
@@ -145,7 +145,7 @@ function askForMoreModules() {
     this.prompt({
         type: 'confirm',
         name: 'installModules',
-        message: 'Would you like to install other generators from the JHipster Marketplace?',
+        message: '你想从JHipster Marketplace安装其他生成器吗？',
         default: false
     }).then((prompt) => {
         if (prompt.installModules) {
@@ -171,7 +171,7 @@ function askModulesToBeInstalled(done, generator) {
                 generator.prompt({
                     type: 'checkbox',
                     name: 'otherModules',
-                    message: 'Which other modules would you like to use?',
+                    message: '您想使用哪些其他模块?',
                     choices,
                     default: []
                 }).then((prompt) => {
